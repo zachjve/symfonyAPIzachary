@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
- * @Route("/animals", name="animals_")
+ * @Route("/api/animals", name="animals_")
  */
 class AnimalsController extends AbstractController
 {
@@ -148,6 +148,6 @@ class AnimalsController extends AbstractController
         $em->remove($animal);
         $em->flush();
 
-        return $this->json(['message' => 'Animal deleted'], 204);
+        return $this->json(['message' => 'Animal deleted']);
     }
 }
