@@ -60,6 +60,7 @@ Voici les routes disponibles :
 
 GET /api/animals : Récupérer tous les animaux.
 GET /api/animals/{id} : Récupérer un animal spécifique en fonction de son identifiant.
+GET /api/animals/{id}/country : Récuperer tout les animaux en fonction de leur pays.
 
 POST /api/animals/ : Créer un nouvel animal.
 ```json 
