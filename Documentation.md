@@ -1,11 +1,13 @@
-## Étape 1 
+## Étape 1 : : Connexion à l'API
 
-Mon API s'utilise avec une connection 
 #### Créer un utilisateur 
 
-**Toutes les entrées en json ce font dans body puis raw**
 
-_method POST_ : http://localhost:8000/register
+Note : Toutes les entrées JSON se font dans le corps de la requête (Body > Raw dans Postman).
+
+Pour créer un utilisateur, utilisez la méthode POST à l'adresse suivante : http://localhost:8000/register
+
+Exemple de requête :
 
 ```json
 { // remplacer tata par ce que vous voulez
@@ -14,22 +16,22 @@ _method POST_ : http://localhost:8000/register
 } 
 ```
 
-Voici le retour attendu : 
+Réponse attendue :
 
 ```json
-{ // code 201 created
+{ // code HTTP 201 created
 	"status": "User created successfully",
 	"user": "tata"
 }
 ```
 
-Verifier la connction pour obtenir son token
 #### Se connecter
 
-_method POST_ : http://localhost:8000/login_check
+Pour vous connecter et obtenir un token, utilisez la méthode POST à l'adresse suivante : http://localhost:8000/login_check
 
-**Bien mettre json en text**
-**Bien mettre username a la place de name**
+Notez que vous devez remplacer "name" par "username" dans le corps de la requête et préciser JSON et non text.
+
+Exemple de requête :
 
 ```json
 { // remplacer tata votre user et votre mdp
@@ -38,8 +40,7 @@ _method POST_ : http://localhost:8000/login_check
 } 
 ```
 
-Voici le retour attendu : 
-_Copier votre token (bien le garder pour la suite)
+Réponse attendue : 
 
 ```json
 { // votre token 
@@ -47,22 +48,20 @@ _Copier votre token (bien le garder pour la suite)
 }
 ```
 
+Copiez le token pour l'utiliser dans vos requêtes ultérieures.
+
+## Étape 2 : Utilisation de l'API
+
 #### Faire les requêtes
 
-**Obligatoire pour l'api !**
-Aller dans Headers et rentrer :
+Important : Pour chaque requête, vous devez ajouter un en-tête avec la clé "Authorization" et la valeur "Bearer {votre-token}".
 
-Dans _"Key"_ : `Authorization`
-Dans _"Value"_ : `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1[....]` (votre token)``
+Voici les routes disponibles :
 
-Voici toutes les routes : 
+GET /api/animals : Récupérer tous les animaux.
+GET /api/animals/{id} : Récupérer un animal spécifique en fonction de son identifiant.
 
-GET /api/animals (Avoir tout les animaux)
-
-GET /api/animals/id (Avoir un animal en focntion de son id)
-
-POST /api/animals/ (Créer un nouvel animal) 
-
+POST /api/animals/ : Créer un nouvel animal.
 ```json 
 { // Dans body raw rentrer ce genre d'input 
     "name": "Crocodile",
@@ -76,8 +75,7 @@ POST /api/animals/ (Créer un nouvel animal)
 }
 ```
 
-PUT /api/animals/id (Modifier un animal existant)
-
+PUT /api/animals/{id} : Modifier un animal existant.
 ```json
 { // Dans body raw rentrer ce genre d'input
     "name": "Zach",
@@ -91,8 +89,8 @@ PUT /api/animals/id (Modifier un animal existant)
 }
 ```
 
-PATCH /api/animals/id/country (Modifier uniquement le pays)
-
+PATCH /api/animals/{id}/country : Modifier uniquement le pays d'un animal.
+Exemple de requête :
 ```json
 { // Dans body raw rentrer ce genre d'input
     "country": {
@@ -101,4 +99,6 @@ PATCH /api/animals/id/country (Modifier uniquement le pays)
 }
 ```
 
-DELETE /api/animals/
+DELETE /api/animals/{id} : Supprimer un animal en fonction de son identifiant.
+
+Note : pour toutes ces requêtes, remplacez {id} par l'identifiant de l'animal et utilisez un identifiant de pays valide pour les requêtes impliquant un pays.
