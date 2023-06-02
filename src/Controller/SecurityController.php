@@ -30,6 +30,15 @@ class SecurityController extends AbstractController
     {
         $data = json_decode($request->getContent(), true);
 
+        // Vérifier si l'utilisateur existe déjà
+        $existingUser = $em->getRepository(User::class)->findOneBy(['name' => $data['name']]);
+        if ($existingUser) {
+            return $this->json([
+                'status' => 'Error',
+                'message' => 'User already exists'
+            ], 400);
+        }
+
         $user = new User();
         $user->setName($data['name']);
         $user->setPassword($passwordEncoder->encodePassword($user, $data['password']));
@@ -39,7 +48,34 @@ class SecurityController extends AbstractController
 
         return $this->json([
             'status' => 'User created successfully',
-            'user' => $user->getName()
+            'user' => [
+                'name' => $user->getName(),
+                'id' => $user->getId(),
+            ],
         ], 201);
     }
+
+    /**
+     * @Route("/api/delete/{id}", name="app_delete", methods={"DELETE"})
+     */
+    public function delete($id, EntityManagerInterface $em): Response
+    {
+        $user = $em->getRepository(User::class)->find($id);
+
+        if (!$user) {
+            return $this->json([
+                'status' => 'Error',
+                'message' => 'User not found'
+            ], 404);
+        }
+
+        $em->remove($user);
+        $em->flush();
+
+        return $this->json([
+            'status' => 'Success',
+            'message' => 'User deleted successfully'
+        ], 200);
+    }
+
 }
